@@ -4,39 +4,19 @@
   
   
   <entry>
-    <title>myfirstBlog</title>
+    <title>New Journey</title>
     <link href="/2020/03/17/myfirstBlog/"/>
     <url>/2020/03/17/myfirstBlog/</url>
     
-    <content type="html"><![CDATA[<h1 id="This-is-my-first-blog-and-I-hope-you-can-enjoy-it"><a href="#This-is-my-first-blog-and-I-hope-you-can-enjoy-it" class="headerlink" title="This is my first blog and I hope you can enjoy it"></a>This is my first blog and I hope you can enjoy it</h1>]]></content>
+    <content type="html"><![CDATA[<p>As time goes by, I find it’s easier to forget things, which could be my knowledge and sweet memories.</p><p>So, it’s never too early to take screenshot of these invaluable moments.</p><p>I build these pages to remind me of all the wonderful things I’ve experienced.</p><p>I plan to write about:</p><ol><li>Things about life, like this one.</li><li>Technical things I’ve learned from anywhere.</li><li>More to be decided.</li></ol><p>Hope you enjoy my site.</p>]]></content>
     
     
     
-  </entry>
-  
-  
-  
-  <entry>
-    <title>菜鸟网Django教程学习记录</title>
-    <link href="/2020/03/17/%E8%8F%9C%E9%B8%9F%E7%BD%91Django%E6%95%99%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"/>
-    <url>/2020/03/17/%E8%8F%9C%E9%B8%9F%E7%BD%91Django%E6%95%99%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</url>
-    
-    <content type="html"><![CDATA[<h1 id="菜鸟网Django教程学习记录"><a href="#菜鸟网Django教程学习记录" class="headerlink" title="菜鸟网Django教程学习记录"></a>菜鸟网Django教程学习记录</h1><h2 id="一、环境安装"><a href="#一、环境安装" class="headerlink" title="一、环境安装"></a>一、环境安装</h2><ol><li>打开Anaconda Navigator，创建一个新环境，命名为<code>web_development</code>，路径为默认路径</li><li>在环境中安装<code>django</code></li><li><code>django-admin</code>可调出说明</li></ol><h2 id="二、创建第一个项目"><a href="#二、创建第一个项目" class="headerlink" title="二、创建第一个项目"></a>二、创建第一个项目</h2><ol><li><p>通过cmd进入想存放项目的路径</p></li><li><p><code>django-admin startproject HelloWorld</code>将创建名为<code>Helloworld</code>的项目</p><p>创建完成后cmd中敲入<code>tree /f</code>可查看项目的目录结构：</p><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">C:.</span></span><br><span class="line"><span class="function">└─<span class="title">HelloWorld</span></span></span><br><span class="line"><span class="function">    │  <span class="title">manage.py</span></span></span><br><span class="line"><span class="function">    │</span></span><br><span class="line"><span class="function">    └─<span class="title">HelloWorld</span></span></span><br><span class="line"><span class="function">            <span class="title">settings.py</span></span></span><br><span class="line"><span class="function">            <span class="title">urls.py</span></span></span><br><span class="line"><span class="function">            <span class="title">wsgi.py</span></span></span><br><span class="line"><span class="function">            <span class="title">__init__.py</span></span></span><br></pre></td></tr></table></figure><p>目录说明：</p><table><thead><tr><th align="center">项目</th><th align="center">说明</th></tr></thead><tbody><tr><td align="center">HelloWorld</td><td align="center">项目的容器</td></tr><tr><td align="center">manage.py</td><td align="center">与Django交互的窗口</td></tr><tr><td align="center">HelloWorld/_<em>init_</em>.py</td><td align="center">空文件，告诉Python该目录是一个Python包</td></tr><tr><td align="center">HelloWorld/settings.py</td><td align="center">该Django项目的设置</td></tr><tr><td align="center">HelloWorld/urls.py</td><td align="center">该 Django 项目的 URL 声明; 一份由 Django 驱动的网站”目录”</td></tr><tr><td align="center">HelloWorld/wsgi.py</td><td align="center">一个 WSGI 兼容的 Web 服务器的入口，以便运行你的项目</td></tr></tbody></table></li></ol><h2 id="三、启动项目"><a href="#三、启动项目" class="headerlink" title="三、启动项目"></a>三、启动项目</h2><ol><li><p>进入HelloWorld目录输入</p><p><code>python manage.py runserver 0.0.0.0:8000</code></p><p>0.0.0.0让其他电脑可以连接到开发服务器，8000为端口号。（默认端口号为8000）</p><p>在浏览器中输入服务器ip及端口号，如正常启动，则有：</p><p><img src="C:%5CUsers%5Ca%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1560218596283.png" alt="1560218596283"></p></li></ol>]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="/2020/03/17/hello-world/"/>
-    <url>/2020/03/17/hello-world/</url>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-    
-    
+    <tags>
+      
+      <tag>Life</tag>
+      
+    </tags>
     
   </entry>
   
