@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>Why-List</title>
+    <link href="/2020/05/27/Why-List/"/>
+    <url>/2020/05/27/Why-List/</url>
+    
+    <content type="html"><![CDATA[<p>Hi there, this is my new series, to record some pitfalls I’ve met during my daily learning of Java.</p><h2 id="Q-why-use-List-list-new-ArrayList-rather-than-ArrayList-list-new-ArrayList"><a href="#Q-why-use-List-list-new-ArrayList-rather-than-ArrayList-list-new-ArrayList" class="headerlink" title="Q: why use List list = new ArrayList rather than ArrayList list = new ArrayList?"></a>Q: why use List list = new ArrayList rather than ArrayList list = new ArrayList?</h2><p>I’ve seen a lot code starts like this:</p><pre><code class="java">List&lt;Integer&gt; list = new ArrayList&lt;&gt;();</code></pre><p>and I wonder, why not write like this:</p><pre><code class="java">ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();</code></pre><p>because in this way it’s more convenient to use APIs of <code>ArrayList</code> . </p><h2 id="A-The-first-way-will-allow-you-to-make-implementation-specific-changes-without-breaking-existing-code"><a href="#A-The-first-way-will-allow-you-to-make-implementation-specific-changes-without-breaking-existing-code" class="headerlink" title="A: The first way will allow you to make implementation-specific changes without breaking existing code."></a>A: The first way will allow you to make implementation-specific changes without breaking existing code.</h2><p><code>ArrayList</code> and <code>LinkedList</code> implement  <code>List</code> interface, so if you declare <code>list</code> with supepinterface <code>List</code> instead of more specific one (like <code>AarrayList</code> or <code>LinkedList</code>) you can change it later if you find you always need to modify its length but you declared it as an <code>ArrayList</code> a week ago.</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Java</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Start_to_record</title>
     <link href="/2020/05/09/Start-to-record/"/>
     <url>/2020/05/09/Start-to-record/</url>
