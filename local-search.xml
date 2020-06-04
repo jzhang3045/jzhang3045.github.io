@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>Casting</title>
+    <link href="/2020/06/04/Casting/"/>
+    <url>/2020/06/04/Casting/</url>
+    
+    <content type="html"><![CDATA[<p>Casting sometimes annoys me, so I decided to write my understanding of casting and why we need to use casting.</p><h2 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h2><blockquote><p>One object reference can be typecast into another object reference. This is called casting object.</p></blockquote><h2 id="Categories-of-casting"><a href="#Categories-of-casting" class="headerlink" title="Categories of casting"></a>Categories of casting</h2><ol><li>Implicit casting</li></ol><pre><code class="java">Object o = new Student();</code></pre><ol><li>Explicit casting</li></ol><pre><code class="java">Student b = (Student)o;</code></pre><h2 id="Why-need-casting"><a href="#Why-need-casting" class="headerlink" title="Why need casting"></a>Why need casting</h2><p>Tell compiler <code>o</code> is an instance of <code>Student</code> (in the above example), otherwise if <code>o</code> use some methods that belong to <code>Student</code> class, there will be a compile error.</p><pre><code class="java">void someMethod(Object myObject) {    if (myObject instanceof Circle) {        System.out.println(&quot;The circle diameter is &quot; +                          ((Circle)myObject).getDiameter());    }}</code></pre><p>Look at the above example, you may wonder why not declare <code>myObject</code> as a <code>Circle</code>? By doing, you will not need to do explicit casting in the future.</p><p>It’s time to introduce generic programming:</p><blockquote><p>Generic programming centers around the idea of abstracting from concrete, efficient algorithms to obtain generic algorithms that can be combined with different data representations to produce a wide variety of useful software.</p></blockquote><blockquote><p>To enable generic programming, it’s a good practice to declare a variable with a supertype that can accept an object of any subtype.</p></blockquote><h2 id="Need-to-care"><a href="#Need-to-care" class="headerlink" title="Need to care"></a>Need to care</h2><ol><li>casting an instance of a subclass to a variable of a superclass is always possible (upcasting)</li><li>casting an instance of a superclass to a variable of a subclass (downcasting) will result in a runtime exception if the superclass object is not an instance of the subclass.</li><li>neither static type nor dynamic type will be change by casting, from this point of view, casting is like a trick to make compiler smarter.</li></ol><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol><li>Introduction to Java Programming and Data Structure, Y. Daniel Liang</li><li><a href="https://en.wikipedia.org/wiki/Generic_programming#:~:text=Generic%20programming%20is%20a%20style,specific%20types%20provided%20as%20parameters." target="_blank" rel="noopener">Generic programming</a></li></ol>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Java</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Reflection</title>
     <link href="/2020/06/02/Reflection/"/>
     <url>/2020/06/02/Reflection/</url>
