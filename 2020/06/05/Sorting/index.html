@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Junpeng Zhang">
   <meta name="keywords" content="">
-  <title>Casting - Junpeng&#39;s</title>
+  <title>Sorting - Junpeng&#39;s</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
@@ -124,7 +124,7 @@
               
                 <p class="mt-3 post-meta">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                  Thursday, June 4th 2020, 5:07 pm
+                  Friday, June 5th 2020, 3:43 pm
                 </p>
               
 
@@ -133,7 +133,7 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    280 words
+                    731 words
                   </span>
                 
 
@@ -141,7 +141,7 @@
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      1 minutes
+                      4 minutes
                   </span>
                 
 
@@ -169,41 +169,163 @@
           <div class="post-content mx-auto" id="post">
             
             <div class="markdown-body">
-              <p>Casting sometimes annoys me, so I decided to write my understanding of casting and why we need to use casting.</p>
-<h2 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h2><blockquote>
-<p>One object reference can be typecast into another object reference. This is called casting object.</p>
-</blockquote>
-<h2 id="Categories-of-casting"><a href="#Categories-of-casting" class="headerlink" title="Categories of casting"></a>Categories of casting</h2><ol>
-<li>Implicit casting</li>
-</ol>
-<pre><code class="java">Object o = new Student();</code></pre>
-<ol>
-<li>Explicit casting</li>
-</ol>
-<pre><code class="java">Student b = (Student)o;</code></pre>
-<h2 id="Why-need-casting"><a href="#Why-need-casting" class="headerlink" title="Why need casting"></a>Why need casting</h2><p>Tell compiler <code>o</code> is an instance of <code>Student</code> (in the above example), otherwise if <code>o</code> use some methods that belong to <code>Student</code> class, there will be a compile error.</p>
-<pre><code class="java">void someMethod(Object myObject) {
-    if (myObject instanceof Circle) {
-        System.out.println(&quot;The circle diameter is &quot; +
-                          ((Circle)myObject).getDiameter());
+              <p>This post is a conclusion of different sorting algorithms.</p>
+<h2 id="1-insertion-sort"><a href="#1-insertion-sort" class="headerlink" title="1. insertion sort"></a>1. insertion sort</h2><h3 id="Intuition"><a href="#Intuition" class="headerlink" title="Intuition:"></a>Intuition:</h3><pre><code class="java">for (int i = 1; i &lt; list.length; i++) {
+    insert list[i] into a sorted sublist[0..i - 1] so that list[0..i] is sorted.
+}</code></pre>
+<h3 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation:"></a>Implementation:</h3><pre><code class="java">public static void insertionSort(int[] list) {
+    for (int i = 1; i &lt; list.length; i++) {
+        /** insert list[i] into a sorted sublist list[0..i-1] so that
+            list[0..i] is sorted. */
+        int currentElement = list[i];
+        int k;
+        for (k = i - 1; k &gt;= 0 &amp;&amp; list[k] &gt; currentElement; k--) {
+            list[k + 1] = list[k];
+        }
+        // Insert the current element into list[k+1]
+        list[k + 1] = currentElement;
     }
 }</code></pre>
-<p>Look at the above example, you may wonder why not declare <code>myObject</code> as a <code>Circle</code>? By doing, you will not need to do explicit casting in the future.</p>
-<p>It’s time to introduce generic programming:</p>
-<blockquote>
-<p>Generic programming centers around the idea of abstracting from concrete, efficient algorithms to obtain generic algorithms that can be combined with different data representations to produce a wide variety of useful software.</p>
-</blockquote>
-<blockquote>
-<p>To enable generic programming, it’s a good practice to declare a variable with a supertype that can accept an object of any subtype.</p>
-</blockquote>
-<h2 id="Need-to-care"><a href="#Need-to-care" class="headerlink" title="Need to care"></a>Need to care</h2><ol>
-<li>casting an instance of a subclass to a variable of a superclass is always possible (upcasting)</li>
-<li>casting an instance of a superclass to a variable of a subclass (downcasting) will result in a runtime exception if the superclass object is not an instance of the subclass.</li>
-<li>neither static type nor dynamic type will be change by casting, from this point of view, casting is like a trick to make compiler smarter.</li>
-</ol>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<h2 id="2-bubble-sort"><a href="#2-bubble-sort" class="headerlink" title="2. bubble sort"></a>2. bubble sort</h2><h3 id="Intuition-1"><a href="#Intuition-1" class="headerlink" title="Intuition:"></a>Intuition:</h3><pre><code class="java">for (int k = 1; k &lt; list.length; k++) {
+    for (int i = 0; i &lt; list.length - k; i++) {
+        if (list[i] &gt; list [k]) swap list[i] with list[i + 1];
+    }
+}</code></pre>
+<h3 id="Implementation-1"><a href="#Implementation-1" class="headerlink" title="Implementation:"></a>Implementation:</h3><pre><code class="java">public static void bubbleSort(int[] list) {
+    boolean needNextPass = true;
+    int length = list.length;
+    int temp;
+    //i start from i, for at most need n - 1 passes
+    for (int i = 1; i &lt; length &amp;&amp; needNextPass; i++) {
+        //if a pass has no effect, then there is no need to carry next round
+        needNextPass = false;
+        //every pass sort at least one from beginning to end
+        for (int j = 0; j &lt; length - i; j++) {
+            if (list[j] &gt; list[j + 1]) {
+                temp = list[j];
+                list[j] = list[j + 1];
+                list[j + 1] = temp;
+                needNextPass = true;
+            }
+        }
+    }
+}</code></pre>
+<h2 id="3-merge-sort"><a href="#3-merge-sort" class="headerlink" title="3. merge sort"></a>3. merge sort</h2><h3 id="Intuition-2"><a href="#Intuition-2" class="headerlink" title="Intuition:"></a>Intuition:</h3><pre><code class="java">//first divide, then merge
+if (list.length &gt; 1) {
+    mergeSort(list[0 ... list.length / 2]);
+    mergeSort(list[list.length / 2 + 1 ... list.length]);
+    merge the results of above operation;
+}</code></pre>
+<h3 id="Implementation-2"><a href="#Implementation-2" class="headerlink" title="Implementation:"></a>Implementation:</h3><pre><code class="java">public static void mergeSort(int[] list) {
+    int length = list.length;
+    if (length == 2) {
+        if (list[1] &lt; list[0]) {
+            int temp = list[0];
+            list[0] = list[1];
+            list[1] = temp;
+        }
+    } else if (length == 1) { }
+    else {
+        int[] l = new int[length / 2];
+        int[] r = new int[length - length / 2];
+        System.arraycopy(list, 0, l, 0, length / 2);
+        System.arraycopy(list, length / 2, r, 0, length - length / 2);
+        mergeSort(l);
+        mergeSort(r);
+        merge(l, r, list);
+    }
+}
+
+public static void merge(int[] list1, int[] list2, int[] temp) {
+    int current1 = 0; // Current index in list1
+    int current2 = 0; // Current index in list2
+    int current3 = 0; // Current index in temp
+
+    while (current1 &lt; list1.length &amp;&amp; current2 &lt; list2.length) {
+        if (list1[current1] &lt; list2[current2])
+            temp[current3++] = list1[current1++];
+        else
+            temp[current3++] = list2[current2++];
+    }
+
+    while (current1 &lt; list1.length)
+        temp[current3++] = list1[current1++];
+
+    while (current2 &lt; list2.length)
+        temp[current3++] = list2[current2++];
+}</code></pre>
+<h2 id="4-quick-sort"><a href="#4-quick-sort" class="headerlink" title="4. quick sort"></a>4. quick sort</h2><h3 id="Intuition-3"><a href="#Intuition-3" class="headerlink" title="Intuition:"></a>Intuition:</h3><pre><code class="java">if (list.length &gt; 1) {
+    select a pivot;
+    partition list into list1 and list2 such that
+        all elements in list1 &lt;= pivot and
+        all elements in list2 &gt; pivot;
+    quicksort(list1);
+    quicksort(list2);
+}</code></pre>
+<h3 id="Implementation-3"><a href="#Implementation-3" class="headerlink" title="Implementation:"></a>Implementation:</h3><pre><code class="java">public static void quickSort(int[] list) {
+    helper(list, 0, list.length - 1);
+}
+
+/**
+     * Recursion method.
+     * @param list
+     * @param from inclusive
+     * @param to inclusive
+     */
+public static void helper(int[] list, int from, int to) {
+    int length = to - from + 1;
+    if (length &lt;= 1) {}
+    else if (length == 2) {
+        if (list[from] &gt; list[to]) {
+            int temp = list[from];
+            list[from] = list[to];
+            list[to] = temp;
+        }
+    } else {
+        int pivot = list[from];
+        int lo = from;
+        int temp;
+        for (int i = 1; i &lt; length; i++) {
+            if (list[i + from] &lt;= pivot) {
+                lo += 1;
+                if (i + from &gt; lo) {
+                    temp = list[i + from];
+                    list[i + from] = list[lo];
+                    list[lo] = temp;
+                }
+            }
+        }
+        //swap pivot to its correct position
+        temp = list[lo];
+        list[lo] = pivot;
+        list[from] = temp;
+        if (lo - 1 &gt; from) helper(list, from, lo - 1);
+        if (lo + 1 &lt; to) helper(list, lo + 1, to);
+    }
+}</code></pre>
+<h2 id="5-heap-sort"><a href="#5-heap-sort" class="headerlink" title="5. heap sort"></a>5. heap sort</h2><h3 id="Intuition-4"><a href="#Intuition-4" class="headerlink" title="Intuition:"></a>Intuition:</h3><pre><code class="java">//using the property of Max-heap or Min-heap
+//here suppose heap is a Min-heap
+for (int i = 0; i &lt; list.length; i++) {
+    heap.add(list[i]);
+}
+for (int i = 0; i &lt; list.length; i++) {
+    list[i] = heap.poll();
+}</code></pre>
+<h3 id="Implementation-4"><a href="#Implementation-4" class="headerlink" title="Implementation:"></a>Implementation:</h3><pre><code class="java">public static &lt;E extends Comparable&lt;E&gt;&gt; void heapSort(E[] list) {
+    // Create a Heap of integers
+    Heap&lt;E&gt; heap = new Heap&lt;&gt;();
+
+    // Add elements to the heap
+    for (int i = 0; i &lt; list.length; i++)
+        heap.add(list[i]);
+
+    // Remove elements from the heap
+    for (int i = list.length - 1; i &gt;= 0; i--)
+        list[i] = heap.remove();
+}</code></pre>
+<p>note: <code>Java</code> has <code>PriorityQueue</code> class, which can be used as <code>heap</code>.</p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><ol>
 <li>Introduction to Java Programming and Data Structure, Y. Daniel Liang</li>
-<li><a href="https://en.wikipedia.org/wiki/Generic_programming#:~:text=Generic%20programming%20is%20a%20style,specific%20types%20provided%20as%20parameters." target="_blank" rel="noopener">Generic programming</a></li>
 </ol>
 
             </div>
@@ -225,16 +347,11 @@
                 <div class="post-prevnext row">
                   <div class="post-prev col-12 col-md-6">
                     
-                      <a href="/2020/06/05/Sorting/">
-                        <i class="fa fa-chevron-left"></i>
-                        <span>Sorting</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-12 col-md-6">
                     
-                      <a href="/2020/06/02/Reflection/">
-                        <span>Reflection</span>
+                      <a href="/2020/06/04/Casting/">
+                        <span>Casting</span>
                         <i class="fa fa-chevron-right"></i>
                       </a>
                     
@@ -407,7 +524,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Casting&nbsp;",
+        "Sorting&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
