@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>Hints for algorithms and data structures</title>
+    <link href="/2020/06/06/Greedy/"/>
+    <url>/2020/06/06/Greedy/</url>
+    
+    <content type="html"><![CDATA[<p>From my perspective, solving Leetcode problems could be broken down into 2 parts:</p><ol><li>select a algorithm</li><li>determine data structure</li></ol><p>Here I will list some useful hint that can help me figure out which algorithm or data structure to use:</p><h1 id="Algorithms"><a href="#Algorithms" class="headerlink" title="Algorithms"></a>Algorithms</h1><h2 id="1-Greedy-Algorithm"><a href="#1-Greedy-Algorithm" class="headerlink" title="1. Greedy Algorithm"></a>1. Greedy Algorithm</h2><ul><li><p>Common hints:</p><ol><li>find minimum number of something to do something</li><li>find maximum number of something to fit in some conditions</li><li>typically propose an unsorted input</li></ol></li><li><p>idea behind it:</p><blockquote><p>Pick the locally optimal at each step, and this will lead to the globally optimal solution.</p></blockquote></li><li><p>Typical problem: <a href="https://leetcode.com/problems/two-city-scheduling/" target="_blank" rel="noopener">Leetcode 1029</a></p></li></ul><p>Coming soon…</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>LeetCode</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Sorting</title>
     <link href="/2020/06/05/Sorting/"/>
     <url>/2020/06/05/Sorting/</url>
