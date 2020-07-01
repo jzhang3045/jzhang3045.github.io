@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Junpeng Zhang">
   <meta name="keywords" content="">
-  <title>Hints for algorithms and data structures - Junpeng&#39;s</title>
+  <title>Backtracking - Junpeng&#39;s</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
@@ -124,7 +124,7 @@
               
                 <p class="mt-3 post-meta">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                  Saturday, June 6th 2020, 11:21 pm
+                  Tuesday, June 30th 2020, 9:45 pm
                 </p>
               
 
@@ -133,7 +133,7 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    92 words
+                    604 words
                   </span>
                 
 
@@ -141,7 +141,7 @@
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      1 minutes
+                      3 minutes
                   </span>
                 
 
@@ -169,29 +169,111 @@
           <div class="post-content mx-auto" id="post">
             
             <div class="markdown-body">
-              <p>From my perspective, solving Leetcode problems could be broken down into 2 parts:</p>
-<ol>
-<li>select a algorithm</li>
-<li>determine data structure</li>
+              <p>Recently, in LeetCode’s June Challenge, I’ve met several problems that are typical backtrack problems.</p>
+<p>I am quite new to this method and I’d like to share some useful things that could help me to clarify the idea and implement it.</p>
+<h2 id="Pseudocode"><a href="#Pseudocode" class="headerlink" title="Pseudocode"></a>Pseudocode</h2><pre><code class="java">backtrack(candidate) {
+    //if candidate meets the stop criteria, then stop immediately
+    if (candidate) return true;
+    //whether this candidate is valid depends on its next step
+    //so, go one step further
+    //check every next_candidate of this candidate&#39;s list
+    for (next_candidates : list_of_candidates) {
+        if (next_candidate) {
+            //mark this next_candidate has been visited
+            place(next_candidate);
+            //go one step further
+            backtrack(next_candidate);
+            //come back one step if previous explore failed
+            remove(next_candidate);
+        }
+    }
+}</code></pre>
+<h2 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h2><h3 id="Leetcode-332"><a href="#Leetcode-332" class="headerlink" title="Leetcode 332"></a>Leetcode 332</h3><p>Given a list of airline tickets represented by pairs of departure and arrival airports <code>[from, to]</code>, reconstruct the itinerary in order. All of the tickets belong to a man who departs from <code>JFK</code>. Thus, the itinerary must begin with <code>JFK</code>.</p>
+<p>Example 1:</p>
+<pre><code>Input: [[&quot;MUC&quot;, &quot;LHR&quot;], [&quot;JFK&quot;, &quot;MUC&quot;], [&quot;SFO&quot;, &quot;SJC&quot;], [&quot;LHR&quot;, &quot;SFO&quot;]]
+Output: [&quot;JFK&quot;, &quot;MUC&quot;, &quot;LHR&quot;, &quot;SFO&quot;, &quot;SJC&quot;]</code></pre><p>Example 2:</p>
+<pre><code>Input: [[&quot;JFK&quot;,&quot;SFO&quot;],[&quot;JFK&quot;,&quot;ATL&quot;],[&quot;SFO&quot;,&quot;ATL&quot;],[&quot;ATL&quot;,&quot;JFK&quot;],[&quot;ATL&quot;,&quot;SFO&quot;]]
+Output: [&quot;JFK&quot;,&quot;ATL&quot;,&quot;JFK&quot;,&quot;SFO&quot;,&quot;ATL&quot;,&quot;SFO&quot;]
+Explanation: Another possible reconstruction is [&quot;JFK&quot;,&quot;SFO&quot;,&quot;ATL&quot;,&quot;JFK&quot;,&quot;ATL&quot;,&quot;SFO&quot;].
+             But it is larger in lexical order.</code></pre><p>In every airport, we have to check all possible tickets, that’s why backtracking algorithm is used.</p>
+<p>Implementation:</p>
+<pre><code class="java">class Solution {
+    //summary：greedy + backtracking
+    //why greedy: at every step we should select the 3 characters that has the smallest lexucal order
+    //put all pairs into a hashmap
+    HashMap&lt;String, List&lt;String&gt;&gt; flightMap = new HashMap&lt;&gt;();
+    HashMap&lt;String, boolean[]&gt; visitBitmap = new HashMap&lt;&gt;();
+    int flight = 0;
+    //store result
+    List&lt;String&gt; result = null;
+
+    public List&lt;String&gt; findItinerary(List&lt;List&lt;String&gt;&gt; tickets) {
+        // step1: build the graph
+        for (List&lt;String&gt; ticket : tickets) {
+            String origin = ticket.get(0);
+            String dest = ticket.get(1);
+            if (flightMap.containsKey(origin)) {
+                List&lt;String&gt; destList = flightMap.get(origin);
+                destList.add(dest);
+            } else {
+                List&lt;String&gt; destList = new LinkedList&lt;&gt;();
+                destList.add(dest);
+                flightMap.put(origin, destList);
+            }
+        }
+
+        //step2: order the destinations and init the visit bitmap
+        for (Map.Entry&lt;String, List&lt;String&gt;&gt; entry : flightMap.entrySet()) {
+            Collections.sort(entry.getValue());
+            visitBitmap.put(entry.getKey(), new boolean[entry.getValue().size()]);
+        }
+
+        flight = tickets.size();
+        LinkedList&lt;String&gt; route = new LinkedList&lt;&gt;();
+        route.add(&quot;JFK&quot;);
+
+        //step3: backtracking
+        backtracking(&quot;JFK&quot;, route);
+        return result;
+    }
+
+    public boolean backtracking(String origin, LinkedList&lt;String&gt; route) {
+        //when size == flight + 1, we&#39;ve found it!
+        if (route.size() == flight + 1) {
+            result = (List&lt;String&gt;) route.clone();
+            return true;
+        }
+        //if no next_candidate, we choose the wrong step in our last selection
+        if (!flightMap.containsKey(origin)) return false;
+
+        int i = 0;
+        //array used to record which ticket has been used
+        boolean[] bitmap = visitBitmap.get(origin);
+
+        for (String dest : flightMap.get(origin)) {
+            if (!bitmap[i]) {
+                bitmap[i] = true;
+                route.add(dest);
+                boolean ret = backtracking(dest, route);
+                route.pollLast();
+                bitmap[i] = false;
+
+                if (ret) return true;
+            }
+            ++i;
+        }
+        return false;
+    }
+}</code></pre>
+<h2 id="Similar-Problems"><a href="#Similar-Problems" class="headerlink" title="Similar Problems:"></a>Similar Problems:</h2><ol>
+<li>Leetcode 46 Permutations</li>
+<li>Leetcode 79 Word Search</li>
+<li>Leetcode 212 Word Search II</li>
 </ol>
-<p>Here I will list some useful hint that can help me figure out which algorithm or data structure to use:</p>
-<h1 id="Algorithms"><a href="#Algorithms" class="headerlink" title="Algorithms"></a>Algorithms</h1><h2 id="1-Greedy-Algorithm"><a href="#1-Greedy-Algorithm" class="headerlink" title="1. Greedy Algorithm"></a>1. Greedy Algorithm</h2><ul>
-<li><p>Common hints:</p>
-<ol>
-<li>find minimum number of something to do something</li>
-<li>find maximum number of something to fit in some conditions</li>
-<li>typically propose an unsorted input</li>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<li><a href="https://leetcode.com/explore/learn/card/recursion-ii/472/backtracking/2793/" target="_blank" rel="noopener">Backtracking Templete</a> </li>
+<li><a href="https://leetcode.com/problems/reconstruct-itinerary/" target="_blank" rel="noopener">Reconstruct Itinerary</a></li>
 </ol>
-</li>
-<li><p>idea behind it:</p>
-<blockquote>
-<p>Pick the locally optimal at each step, and this will lead to the globally optimal solution.</p>
-</blockquote>
-</li>
-<li><p>Typical problem: <a href="https://leetcode.com/problems/two-city-scheduling/" target="_blank" rel="noopener">Leetcode 1029</a></p>
-</li>
-</ul>
-<p>Coming soon…</p>
 
             </div>
             <hr>
@@ -202,7 +284,7 @@
                   <span>
                 <i class="iconfont icon-tag"></i>
                     
-                      <a class="hover-with-bg" href="/tags/LeetCode/">LeetCode</a>
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
                     
                   </span>
                 
@@ -212,16 +294,11 @@
                 <div class="post-prevnext row">
                   <div class="post-prev col-12 col-md-6">
                     
-                      <a href="/2020/06/30/Backtracking/">
-                        <i class="fa fa-chevron-left"></i>
-                        <span>Backtracking</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-12 col-md-6">
                     
-                      <a href="/2020/06/05/Sorting/">
-                        <span>Sorting</span>
+                      <a href="/2020/06/06/Greedy/">
+                        <span>Hints for algorithms and data structures</span>
                         <i class="fa fa-chevron-right"></i>
                       </a>
                     
@@ -394,7 +471,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Hints for algorithms and data structures&nbsp;",
+        "Backtracking&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
