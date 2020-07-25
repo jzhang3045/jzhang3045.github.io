@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Junpeng Zhang">
   <meta name="keywords" content="">
-  <title>Partition - Junpeng&#39;s</title>
+  <title>Pass by Value - Junpeng&#39;s</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
@@ -124,7 +124,7 @@
               
                 <p class="mt-3 post-meta">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                  Friday, July 17th 2020, 8:54 pm
+                  Friday, July 24th 2020, 8:10 pm
                 </p>
               
 
@@ -133,7 +133,7 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    483 words
+                    445 words
                   </span>
                 
 
@@ -141,7 +141,7 @@
                   
                   <span class="post-meta">
                       <i class="far fa-clock"></i>
-                      3 minutes
+                      2 minutes
                   </span>
                 
 
@@ -169,88 +169,59 @@
           <div class="post-content mx-auto" id="post">
             
             <div class="markdown-body">
-              <p>Today July’s LeetCode challenge gives me a chance to revisit a problem, which is interesting.</p>
-<h2 id="LC347-Top-K-Frequent-Elements"><a href="#LC347-Top-K-Frequent-Elements" class="headerlink" title="LC347 Top K Frequent Elements"></a>LC347 Top K Frequent Elements</h2><p>Given a non-empty array of integers, return the <strong>k</strong> most frequent elements.</p>
-<p><strong>Example 1:</strong></p>
-<pre><code>Input: nums = [1,1,1,2,2,3], k = 2
-Output: [1,2]</code></pre><p><strong>Example 2:</strong></p>
-<pre><code>Input: nums = [1], k = 1
-Output: [1]</code></pre><h2 id="My-solutions"><a href="#My-solutions" class="headerlink" title="My solutions:"></a>My solutions:</h2><h3 id="1-using-heap"><a href="#1-using-heap" class="headerlink" title="1. using heap"></a>1. using heap</h3><p>Every time I encounter the key word “most” or “least”, I know that this problem could be solved with heap. At here, we want the most frequent elements, so it’s quite straightforward to use max heap. The implementation is also very simple:</p>
-<pre><code class="java">class Solution {
-    public int[] topKFrequent(int[] nums, int k) {
-        //buiild a max heap which is ordering with elements&#39; frequency
-        var queue = new PriorityQueue&lt;Map.Entry&lt;Integer, Integer&gt;&gt;((el1, el2)-&gt;
-                                                                 el2.getValue() - el1.getValue());
-        //use hashmap to count each elements&#39; frequency
-        var map = new HashMap&lt;Integer, Integer&gt;();
-        int[] res = new int[k];
-        for (int num : nums) {
-            if (map.containsKey(num)) map.put(num, map.get(num) + 1);
-            else map.put(num, 1);
-        }
-        for (Map.Entry&lt;Integer, Integer&gt; element : map.entrySet()) {
-            queue.add(element);
-        }
-        //take out the first k elements and put them into our result
-        for (; k &gt; 0; k--) {
-            res[k - 1] = queue.poll().getKey();
-        }
-        return res;
-    }
-}</code></pre>
-<p>Time complexity will be $O(nlog(n))$.</p>
-<h3 id="2-With-quickselect-Lomuto-partition"><a href="#2-With-quickselect-Lomuto-partition" class="headerlink" title="2. With quickselect (Lomuto partition)"></a>2. With quickselect (Lomuto partition)</h3><p>This solution is based on the article of Leetcode’s solution. with quick select technique, we don’t need to gain the $k$ most frequent elements in order, so we are in good chance to have less time time complexity $O(n)$, although sometimes we may encounter the worst case which is $O(n^2)$.</p>
-<pre><code class="java">class Solution {
-    //get one unique array
-    int[] unique;
-    //used to contain the number for every unique number;
-    Map&lt;Integer, Integer&gt; count;
-    public int[] topKFrequent(int[] nums, int k) {
-        count = new HashMap();
-        for (int num : nums) count.put(num, count.getOrDefault(num, 0) + 1);
-        //build a unique array
-        int n = count.size();
-        unique = new int[n];
-        int i = 0;
-        for (int num: count.keySet()) {
-            unique[i] = num;
-            i++;
-        }
-        quickselect(0, n - 1, n - k);
-        return Arrays.copyOfRange(unique, n - k, n);
-    }
+              <p>Today I encountered a bug and it took me almost 2 hours to really solve it. So I’d like to write it down. This problem arises from LC106.</p>
+<h1 id="LC106"><a href="#LC106" class="headerlink" title="LC106"></a>LC106</h1><h2 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h2><p>Given inorder and postorder traversal of a tree, construct the binary tree.</p>
+<p><strong>Note:</strong><br>You may assume that duplicates do not exist in the tree.</p>
+<p>For example, given</p>
+<pre><code>inorder = [9,3,15,20,7]
+postorder = [9,15,7,20,3]</code></pre><p>Return the following binary tree:</p>
+<pre><code>    3
+   / \
+  9  20
+    /  \
+   15   7</code></pre><h1 id="My-problem"><a href="#My-problem" class="headerlink" title="My problem"></a>My problem</h1><h2 id="1-Wrong-way"><a href="#1-Wrong-way" class="headerlink" title="1. Wrong way"></a>1. Wrong way</h2><pre><code class="java">public TreeNode buildTree(int[] inorder, int[] postorder) {
+    //......
+    TreeNode res = new TreeNode();
+    helper(res, inorder, postorder);
+    //......
+    return res;
+}
 
-    //swap function preparation
-    public void swap(int a, int b) {
-        int tmp = unique[a];
-        unique[a] = unique[b];
-        unique[b] = tmp;
-    }
-    //lomuto&#39;s partition algorithm
-    //return pivot&#39;s position
-    public int partition(int lo, int hi) {
-        int pivot = unique[hi];
-        int i = lo;
-        for (int j = lo; j &lt;= hi; j++) {
-            if (count.get(unique[j]) &lt; count.get(pivot)) {
-                swap(i, j);
-                i++;
-            }
-        }
-        swap(i, hi);
-        return i;
-    }    
-    public void quickselect(int left, int right, int k_smallest) {
-        if (left == right) return;
-        int pivot_index = partition(left, right);
-        if (k_smallest == pivot_index) return;
-        else if (k_smallest &lt; pivot_index) quickselect(left, pivot_index - 1, k_smallest);
-        else quickselect(pivot_index + 1, right, k_smallest);
-    }
+public void helper(TreeNode curr, int[] inorder, int[] postorder) {
+    //......
+    curr = new TreeNode();
+    //......
 }</code></pre>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
-<li><a href="https://leetcode.com/problems/top-k-frequent-elements/" target="_blank" rel="noopener">LC347</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Quicksort#Lomuto_partition_scheme" target="_blank" rel="noopener">Quicksort</a></li>
+<p>The output is always</p>
+<pre><code class="java">[0]</code></pre>
+<p>It showed that the value of <code>res</code> has not been changed.</p>
+<h2 id="2-Why-I-am-wrong"><a href="#2-Why-I-am-wrong" class="headerlink" title="2. Why I am wrong"></a>2. Why I am wrong</h2><p>Key points:</p>
+<ul>
+<li>Java is always <strong>pass-by-value</strong>.</li>
+<li><strong>A variable holds the bits that tell the JVM how to get to the referenced Object in memory (Heap).</strong></li>
+<li>When passing arguments to a method <strong>you ARE NOT passing the reference variable, but a copy of the bits in the reference variable</strong>. Something like this: 3bad086a. 3bad086a represents a way to get to the passed object.</li>
+<li>So you’re just passing 3bad086a that it’s the value of the reference.</li>
+<li>You’re passing the value of the reference and <strong>not the reference itself</strong> (and not the object).</li>
+</ul>
+<blockquote>
+<p>In my case, I wrongly thought when calling <code>helper()</code> method, the reference <code>res</code> itself is passed in, and will be changed to <code>new TreeNode()</code>. However, this situation will not happen in Java, because Java only pass value. So, what under the hood is a local variable <code>curr</code> was created and assigned the same value as <code>res</code>. When use <code>curr = new TreeNode()</code>, I only change the local variable <code>curr</code> not the <code>res</code> to a new <code>Object</code>.</p>
+<p>After running, nothing will happen to my <code>res</code> and it will contain only the <code>new TreeNode</code> at line 3.</p>
+</blockquote>
+<ul>
+<li><strong>This value is actually COPIED and given to the method</strong>.</li>
+</ul>
+<p>If it’s too long, then these two sentences could be your takeaway:</p>
+<ul>
+<li>If it’s a primitive data type these bits will contain the value of the primitive data type itself.</li>
+<li>If it’s an Object the bits will contain the value of the address that tells the JVM how to get to the Object.</li>
+</ul>
+<p>For more details please see Reference 2, that page has very good explanation (I can’t do better =_=). Highly recommend the first 4 posts. </p>
+<h2 id="3-Correct-way"><a href="#3-Correct-way" class="headerlink" title="3. Correct way"></a>3. Correct way</h2><p>Modify the operation in <code>helper()</code> method to make use of the new reference:</p>
+<pre><code class="java">//change line 11 to this
+curr.val = postorder[len - 1];</code></pre>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
+<li><a href="https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/" target="_blank" rel="noopener">LC106</a></li>
+<li><a href="https://stackoverflow.com/questions/40480/is-java-pass-by-reference-or-pass-by-value?page=1&tab=votes#tab-top" target="_blank" rel="noopener">Is Java “pass-by-reference” or “pass-by-value”</a></li>
 </ol>
 
             </div>
@@ -262,7 +233,7 @@ Output: [1]</code></pre><h2 id="My-solutions"><a href="#My-solutions" class="hea
                   <span>
                 <i class="iconfont icon-tag"></i>
                     
-                      <a class="hover-with-bg" href="/tags/LeetCode/">LeetCode</a>
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
                     
                   </span>
                 
@@ -272,16 +243,11 @@ Output: [1]</code></pre><h2 id="My-solutions"><a href="#My-solutions" class="hea
                 <div class="post-prevnext row">
                   <div class="post-prev col-12 col-md-6">
                     
-                      <a href="/2020/07/24/Pass-Value/">
-                        <i class="fa fa-chevron-left"></i>
-                        <span>Pass by Value</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-12 col-md-6">
                     
-                      <a href="/2020/07/12/Overflow/">
-                        <span>Overflow</span>
+                      <a href="/2020/07/17/Partition/">
+                        <span>Partition</span>
                         <i class="fa fa-chevron-right"></i>
                       </a>
                     
@@ -454,7 +420,7 @@ Output: [1]</code></pre><h2 id="My-solutions"><a href="#My-solutions" class="hea
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Partition&nbsp;",
+        "Pass by Value&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
