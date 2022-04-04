@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Reboot my blog"
+title: "Restart my blog!"
 date: 2022-04-04 00:00:01 -0000
 categories: Life
 ---

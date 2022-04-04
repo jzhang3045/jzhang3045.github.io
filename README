@@ -8,3 +8,11 @@ bundle exec jekyll serve
 then:
 go to http://localhost:4000 to preview
 
+//in order to keep github-pages version match that on github, need to update it before publishing
+run:
+bundle update github-pages
+
+//add a new blog
+run:
+cd docs/_posts
+refer https://docs.github.com/cn/pages/setting-up-a-github-pages-site-with-jekyll/adding-content-to-your-github-pages-site-using-jekyll

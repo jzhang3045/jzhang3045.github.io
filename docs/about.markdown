@@ -3,16 +3,12 @@ layout: page
 title: About
 permalink: /about/
 ---
-
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
-
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
-
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
-
-
-[jekyll-organization]: https://github.com/jekyll
+# Hi, I hope this finds you well
+I am JP Zhang, a software engineer in China.\
+I enjoy learning and coding. While visiting my blog, if you have any question about me or my projects, please don't hesitate to contact me.
+# I am interested in:
+- Java, Python, C++
+- Android
+- Movies
+- Jay Chou
+- Cooking
