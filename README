@@ -1,0 +1,10 @@
+This is my blog used for writing some notes.
+
+//local test before publishing
+run:
+cd docs
+bundle install
+bundle exec jekyll serve
+then:
+go to http://localhost:4000 to preview
+
